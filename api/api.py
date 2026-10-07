@@ -6,7 +6,8 @@ from fastapi.responses import ORJSONResponse
 from api.v1.endpoints import role
 from fastapi import APIRouter, Depends
 
-from api.v1.endpoints import worker
+from api.v1.endpoints import worker, task_endpoint as task
+from api.v1.endpoints import project_endpoint as project
 from services.gcp_auth_service import GcpAuthService
 
 api_router = APIRouter(prefix="/api/v1",)
@@ -17,3 +18,5 @@ api_router.include_router(worker.router, prefix="/worker", tags=["Worker"])
 api_router.include_router(role.router, prefix="/role", tags=['Role'])
 
 api_router.include_router(redis.routes, prefix="/redis", tags=["Redis Sample"])
+api_router.include_router(task.router, prefix="/task", tags=["Task"])
+api_router.include_router(project.router, prefix="/project", tags=["Project"])

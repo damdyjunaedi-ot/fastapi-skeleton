@@ -1,0 +1,6 @@
+.env
+.codex
+.aws
+.venv
+.ruff_cache
+.agents

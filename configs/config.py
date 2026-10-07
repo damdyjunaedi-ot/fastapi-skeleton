@@ -37,6 +37,7 @@ class Settings(BaseSettings):
     OTEL_SERVICE_NAME: str
     OTEL_SERVICE_VERSION: str
 
+    INTERNAL_API_KEY: str
     class Config:
         env_file = ".env"
         extra = "ignore"

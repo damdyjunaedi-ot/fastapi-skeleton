@@ -42,6 +42,7 @@ class LoggingMiddleware(BaseHTTPMiddleware):
             "duration_ms": duration_ms,
             "log_type": "http_trace",
             "http_request": {
+                "request_id": getattr(request.state, "request_id", None),
                 "request_headers": request_data.get("headers"),
                 "request_body": request_data.get("body"),
                 "response_headers": response_data.get("headers"),

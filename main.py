@@ -2,7 +2,8 @@ from telemetry import setup_telemetry
 from configs.config import EnvironmentMode
 import logging
 from contextlib import asynccontextmanager
-from fastapi import FastAPI
+from fastapi import FastAPI, Request
+import uuid
 from fastapi.logger import logger as fastapi_logger
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi_async_sqlalchemy import SQLAlchemyMiddleware
@@ -51,7 +52,15 @@ def init_app():
         debug=True,
         openapi_url="/openapi.json",
     )
+    @app.middleware("http")
+    async def add_request_id(request: Request, call_next):
+        request_id = str(uuid.uuid4())
+        request.state.request_id = request_id
 
+        response = await call_next(request)
+        response.headers["X-Request-ID"] = request_id
+        return response
+    
     app.add_middleware(
         SQLAlchemyMiddleware,
         db_url=settings.DB_CONFIG,
